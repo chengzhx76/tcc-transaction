@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>tcc-transaction-parent</artifactId>
+        <groupId>org.mengyun</groupId>
+        <version>1.1.5</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+	<!-- ======================================================================== -->
+	<!-- 龙果学院 (www.roncoo.com) 超级教程系列 -->
+	<!-- 《微服务架构的分布式事务解决方案》视频教程 -->
+	<!-- 讲师：吴水成（水到渠成），840765167@qq.com -->
+	<!-- 课程地址：http://www.roncoo.com/course/view/7ae3d7eddc4742f78b0548aa8bd9ccdb -->
+	<!-- ======================================================================== -->
+	
+    <artifactId>tcc-transaction-spring</artifactId>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.mengyun</groupId>
+            <artifactId>tcc-transaction-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mengyun</groupId>
+            <artifactId>tcc-transaction-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+        </dependency>
+
+
+    </dependencies>
+
+</project>

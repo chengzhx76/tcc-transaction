@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    
+    <groupId>org.mengyun</groupId>
+    <artifactId>tcc-transaction</artifactId>
+    <packaging>pom</packaging>
+    <version>1.1.5</version>
+
+    <modules>
+        <module>tcc-transaction-parent</module>
+        <module>tcc-transaction-core</module>
+        <module>tcc-transaction-api</module>
+        <module>tcc-transaction-spring</module>
+        <module>tcc-transaction-server</module>
+        
+        <!-- <module>tcc-transaction-unit-test</module> -->
+        
+        <module>tcc-transaction-dubbo-capital-api</module>
+        <module>tcc-transaction-dubbo-redpacket-api</module>
+        <module>tcc-transaction-dubbo-order-api</module>
+        <module>tcc-transaction-dubbo-capital</module>
+        <module>tcc-transaction-dubbo-redpacket</module>
+        <module>tcc-transaction-dubbo-order</module>
+        <module>tcc-transaction-dubbo-web-trade</module>
+        
+    </modules>
+
+</project>
