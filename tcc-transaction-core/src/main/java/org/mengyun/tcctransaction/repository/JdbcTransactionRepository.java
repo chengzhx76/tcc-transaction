@@ -72,7 +72,7 @@ public class JdbcTransactionRepository extends CachableTransactionRepository {
      */
     protected int doCreate(Transaction transaction) {
     	
-    	LOG.debug("==>JdbcTransactionRepository.doCreate(Transaction transaction)");
+    	LOG.debug("-->JdbcTransactionRepository.doCreate(Transaction transaction)");
 
         Connection connection = null;
         PreparedStatement stmt = null;
@@ -113,7 +113,7 @@ public class JdbcTransactionRepository extends CachableTransactionRepository {
 
     protected int doUpdate(Transaction transaction) {
     	
-    	LOG.debug("==>JdbcTransactionRepository.doUpdate(Transaction transaction)");
+    	LOG.debug("-->JdbcTransactionRepository.doUpdate(Transaction transaction)");
     	
         Connection connection = null;
         PreparedStatement stmt = null;
@@ -160,7 +160,7 @@ public class JdbcTransactionRepository extends CachableTransactionRepository {
 
     protected int doDelete(Transaction transaction) {
     	
-    	LOG.debug("==>JdbcTransactionRepository.doDelete(Transaction transaction)");
+    	LOG.debug("-->JdbcTransactionRepository.doDelete(Transaction transaction)");
     	
         Connection connection = null;
         PreparedStatement stmt = null;
@@ -195,7 +195,7 @@ public class JdbcTransactionRepository extends CachableTransactionRepository {
 
     protected Transaction doFindOne(Xid xid) {
     	
-    	LOG.debug("==>doFindOne xid:" + xid.getGlobalTransactionId());
+    	LOG.debug("-->doFindOne xid:" + xid.getGlobalTransactionId());
 
         List<Transaction> transactions = doFind(Arrays.asList(xid));
 
@@ -253,7 +253,7 @@ public class JdbcTransactionRepository extends CachableTransactionRepository {
 
     protected List<Transaction> doFind(List<Xid> xids) {
     	
-    	LOG.debug("==>doFind");
+    	LOG.debug("-->doFind");
 
         List<Transaction> transactions = new ArrayList<Transaction>();
 

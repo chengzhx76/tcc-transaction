@@ -56,12 +56,13 @@ public class CapitalTradeOrderServiceImpl implements CapitalTradeOrderService {
         transferFromAccount.transferFrom(tradeOrderDto.getAmount()); // 先扣减付款方资金帐户资金
 
         capitalAccountRepository.save(transferFromAccount);
+        LOG.debug("-->使用余额支付成功");
         return "success";
     }
 
     @Transactional
     public void confirmRecord(TransactionContext transactionContext, CapitalTradeOrderDto tradeOrderDto) {
-    	LOG.debug("-->余额支付成功-确认");
+    	LOG.debug("-->余额支付-确认");
 
         TradeOrder tradeOrder = tradeOrderRepository.findByMerchantOrderNo(tradeOrderDto.getMerchantOrderNo());
 
@@ -77,7 +78,7 @@ public class CapitalTradeOrderServiceImpl implements CapitalTradeOrderService {
 
     @Transactional
     public void cancelRecord(TransactionContext transactionContext, CapitalTradeOrderDto tradeOrderDto) {
-    	LOG.debug("-->余额支付成功-取消");
+    	LOG.debug("-->余额支付-取消");
 
         TradeOrder tradeOrder = tradeOrderRepository.findByMerchantOrderNo(tradeOrderDto.getMerchantOrderNo());
 
