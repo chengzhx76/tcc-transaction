@@ -40,7 +40,7 @@ public class RedPacketTradeOrderServiceImpl implements RedPacketTradeOrderServic
     @Compensable(confirmMethod = "confirmRecord",cancelMethod = "cancelRecord")
     @Transactional
     public String record(TransactionContext transactionContext, RedPacketTradeOrderDto tradeOrderDto) {
-    	LOG.debug("==>red packet try record called");
+    	LOG.debug("-->尝试使用红包支付");
 
         TradeOrder tradeOrder = new TradeOrder(
                 tradeOrderDto.getSelfUserId(),
@@ -62,7 +62,7 @@ public class RedPacketTradeOrderServiceImpl implements RedPacketTradeOrderServic
 
     @Transactional
     public void confirmRecord(TransactionContext transactionContext, RedPacketTradeOrderDto tradeOrderDto) {
-    	LOG.debug("==>red packet confirm record called");
+    	LOG.debug("-->红包支付成功--确认");
 
         TradeOrder tradeOrder = tradeOrderRepository.findByMerchantOrderNo(tradeOrderDto.getMerchantOrderNo());
 
@@ -78,7 +78,7 @@ public class RedPacketTradeOrderServiceImpl implements RedPacketTradeOrderServic
 
     @Transactional
     public void cancelRecord(TransactionContext transactionContext, RedPacketTradeOrderDto tradeOrderDto) {
-    	LOG.debug("==>red packet cancel record called");
+    	LOG.debug("-->红包支付失败--取消");
 
         TradeOrder tradeOrder = tradeOrderRepository.findByMerchantOrderNo(tradeOrderDto.getMerchantOrderNo());
 

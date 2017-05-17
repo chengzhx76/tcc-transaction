@@ -46,7 +46,7 @@ public abstract class CachableTransactionRepository implements TransactionReposi
      */
     @Override
     public int create(Transaction transaction) {
-    	LOG.debug("==>create(Transaction transaction)");
+    	LOG.debug("-->创建事务日志记录");
         int result = doCreate(transaction);
         if (result > 0) {
             putToCache(transaction);
@@ -56,7 +56,7 @@ public abstract class CachableTransactionRepository implements TransactionReposi
 
     @Override
     public int update(Transaction transaction) {
-    	LOG.debug("==>update(Transaction transaction)");
+    	LOG.debug("-->更新事务日志记录");
         int result = doUpdate(transaction);
         if (result > 0) {
             putToCache(transaction);
@@ -68,7 +68,7 @@ public abstract class CachableTransactionRepository implements TransactionReposi
 
     @Override
     public int delete(Transaction transaction) {
-    	LOG.debug("==>delete(Transaction transaction)");
+    	LOG.debug("-->删除事务日志记录");
         int result = doDelete(transaction);
         if (result > 0) {
             removeFromCache(transaction);
@@ -78,7 +78,7 @@ public abstract class CachableTransactionRepository implements TransactionReposi
 
     /**
      * 根据xid查找事务日志记录.
-     * @param xid
+     * @param transactionXid
      * @return
      */
     @Override

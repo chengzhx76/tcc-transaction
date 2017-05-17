@@ -42,7 +42,7 @@ public class RedPacketAccount {
         this.balanceAmount = this.balanceAmount.subtract(amount);
 
         if (BigDecimal.ZERO.compareTo(this.balanceAmount) > 0) {
-            throw new RuntimeException("not enough balance!");
+            throw new RuntimeException("红包余额不够");
         }
     }
 

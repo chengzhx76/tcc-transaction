@@ -56,7 +56,7 @@ public class CompensableTransactionInterceptor {
         // 计算可补偿事务方法类型
         MethodType methodType = CompensableMethodUtils.calculateMethodType(transactionContext, true);
         
-        logger.debug("==>interceptCompensableMethod methodType:" + methodType.toString());
+        logger.debug("-->可补偿事务拦截器 methodType:" + methodType.toString());
 
         switch (methodType) {
             case ROOT:
@@ -74,19 +74,19 @@ public class CompensableTransactionInterceptor {
      * @throws Throwable
      */
     private Object rootMethodProceed(ProceedingJoinPoint pjp) throws Throwable {
-    	logger.debug("==>rootMethodProceed");
+    	logger.debug("-->根方法处理");
 
         transactionConfigurator.getTransactionManager().begin(); // 事务开始（创建事务日志记录，并在当前线程缓存该事务日志记录）
 
         Object returnValue = null; // 返回值
         try {
         	
-        	logger.debug("==>rootMethodProceed try begin");
+        	logger.debug("-->根方法处理 try begin");
             returnValue = pjp.proceed();  // Try (开始执行被拦截的方法)
-            logger.debug("==>rootMethodProceed try end");
+            logger.debug("-->根方法处理 try end");
             
         } catch (OptimisticLockException e) {
-        	logger.warn("==>compensable transaction trying exception.", e);
+        	logger.warn("-->compensable transaction trying exception.", e);
             throw e; //do not rollback, waiting for recovery job
         } catch (Throwable tryingException) {
             logger.warn("compensable transaction trying failed.", tryingException);
@@ -94,7 +94,7 @@ public class CompensableTransactionInterceptor {
             throw tryingException;
         }
 
-        logger.info("===>rootMethodProceed begin commit()");
+        logger.info("-->可补偿事务拦截器 begin commit()");
         transactionConfigurator.getTransactionManager().commit(); // Try检验正常后提交(事务管理器在控制提交)
 
         return returnValue;
@@ -108,32 +108,32 @@ public class CompensableTransactionInterceptor {
      */
     private Object providerMethodProceed(ProceedingJoinPoint pjp, TransactionContext transactionContext) throws Throwable {
     	
-    	logger.debug("==>providerMethodProceed transactionStatus:" + TransactionStatus.valueOf(transactionContext.getStatus()).toString());
+    	logger.debug("-->生产者方法处理 事务状态:" + TransactionStatus.valueOf(transactionContext.getStatus()).toString());
 
         switch (TransactionStatus.valueOf(transactionContext.getStatus())) {
             case TRYING:
-            	logger.debug("==>providerMethodProceed try begin");
+            	logger.debug("-->生产者方法处理 try begin");
             	// 基于全局事务ID扩展创建新的分支事务，并存于当前线程的事务局部变量中.
                 transactionConfigurator.getTransactionManager().propagationNewBegin(transactionContext);
-                logger.debug("==>providerMethodProceed try end");
+                logger.debug("-->生产者方法处理 try end");
                 return pjp.proceed();
             case CONFIRMING:
                 try {
-                	logger.debug("==>providerMethodProceed confirm begin");
+                	logger.debug("-->生产者方法处理 确认 begin");
                 	// 找出存在的事务并处理.
                     transactionConfigurator.getTransactionManager().propagationExistBegin(transactionContext);
                     transactionConfigurator.getTransactionManager().commit(); // 提交
-                    logger.debug("==>providerMethodProceed confirm end");
+                    logger.debug("-->生产者方法处理 确认 end");
                 } catch (NoExistedTransactionException excepton) {
                     //the transaction has been commit,ignore it.
                 }
                 break;
             case CANCELLING:
                 try {
-                	logger.debug("==>providerMethodProceed cancel begin");
+                	logger.debug("-->生产者方法处理 取消 begin");
                     transactionConfigurator.getTransactionManager().propagationExistBegin(transactionContext);
                     transactionConfigurator.getTransactionManager().rollback(); // 回滚
-                    logger.debug("==>providerMethodProceed cancel end");
+                    logger.debug("-->生产者方法处理 取消 end");
                 } catch (NoExistedTransactionException exception) {
                     //the transaction has been rollback,ignore it.
                 }

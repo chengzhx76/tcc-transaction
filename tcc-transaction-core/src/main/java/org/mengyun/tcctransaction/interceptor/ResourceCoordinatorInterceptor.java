@@ -50,20 +50,20 @@ public class ResourceCoordinatorInterceptor {
      * @throws Throwable
      */
     public Object interceptTransactionContextMethod(ProceedingJoinPoint pjp) throws Throwable {
-    	LOG.debug("==>interceptTransactionContextMethod(ProceedingJoinPoint pjp)");
+    	LOG.debug("-->资源协调拦截器 --- 拦截事务上下文方法");
     	// 获取当前事务
         Transaction transaction = transactionConfigurator.getTransactionManager().getCurrentTransaction();
         
         // Trying(判断是否Try阶段的事务)
         if (transaction != null && transaction.getStatus().equals(TransactionStatus.TRYING)) {
-        	LOG.debug("==>TransactionStatus:" + transaction.getStatus().toString());
+        	LOG.debug("-->事务状态:" + transaction.getStatus().toString());
         	// 从参数获取事务上下文
             TransactionContext transactionContext = CompensableMethodUtils.getTransactionContextFromArgs(pjp.getArgs());
             // 获取事务补偿注解
             Compensable compensable = getCompensable(pjp);
             // 计算方法类型
             MethodType methodType = CompensableMethodUtils.calculateMethodType(transactionContext, compensable != null ? true : false);
-            LOG.debug("==>methodType:" + methodType.toString());
+            LOG.debug("-->方法类型:" + methodType.toString());
             
             switch (methodType) {
                 case ROOT:
@@ -78,7 +78,7 @@ public class ResourceCoordinatorInterceptor {
             }
         }
         
-        LOG.debug("==>pjp.proceed(pjp.getArgs())");
+        LOG.debug("-->资源协调拦截器 --- pjp.proceed(pjp.getArgs())");
         return pjp.proceed(pjp.getArgs());
     }
 
@@ -88,7 +88,7 @@ public class ResourceCoordinatorInterceptor {
      * @return
      */
     private Participant generateAndEnlistRootParticipant(ProceedingJoinPoint pjp) {
-    	LOG.debug("==>generateAndEnlistRootParticipant(ProceedingJoinPoint pjp)");
+    	LOG.debug("-->资源协调拦截器 --- 生成和登记根参与者");
         MethodSignature signature = (MethodSignature) pjp.getSignature();
         Method method = signature.getMethod();
         Compensable compensable = getCompensable(pjp);
@@ -98,7 +98,7 @@ public class ResourceCoordinatorInterceptor {
         Transaction transaction = transactionConfigurator.getTransactionManager().getCurrentTransaction(); // 获取当前事务
 
         TransactionXid xid = new TransactionXid(transaction.getXid().getGlobalTransactionId()); // 获取事务Xid
-        LOG.debug("==>TransactionXid：" + TransactionXid.byteArrayToUUID(xid.getGlobalTransactionId()).toString()
+        LOG.debug("-->事务Xid：" + TransactionXid.byteArrayToUUID(xid.getGlobalTransactionId()).toString()
         		+ "|" + TransactionXid.byteArrayToUUID(xid.getBranchQualifier()).toString());
 
         Class targetClass = ReflectionUtils.getDeclaringType(pjp.getTarget().getClass(), method.getName(), method.getParameterTypes());
@@ -133,14 +133,14 @@ public class ResourceCoordinatorInterceptor {
      * @return
      */
     private Participant generateAndEnlistConsumerParticipant(ProceedingJoinPoint pjp) {
-    	LOG.debug("==>generateAndEnlistConsumerParticipant(ProceedingJoinPoint pjp)");
+    	LOG.debug("-->资源协调拦截器 --- 生成并登记消费者的参与者");
         MethodSignature signature = (MethodSignature) pjp.getSignature();
         Method method = signature.getMethod();
 
         Transaction transaction = transactionConfigurator.getTransactionManager().getCurrentTransaction(); // 获取当前事务
 
         TransactionXid xid = new TransactionXid(transaction.getXid().getGlobalTransactionId()); // 获取事务Xid
-        LOG.debug("==>TransactionXid：" + TransactionXid.byteArrayToUUID(xid.getGlobalTransactionId()).toString()
+        LOG.debug("-->事务Xid：" + TransactionXid.byteArrayToUUID(xid.getGlobalTransactionId()).toString()
         		+ "|" + TransactionXid.byteArrayToUUID(xid.getBranchQualifier()).toString());
         
         // 获取事务上下文参数的位置
@@ -199,7 +199,7 @@ public class ResourceCoordinatorInterceptor {
         Transaction transaction = transactionConfigurator.getTransactionManager().getCurrentTransaction();
 
         TransactionXid xid = new TransactionXid(transaction.getXid().getGlobalTransactionId());
-        LOG.debug("==>TransactionXid：" + TransactionXid.byteArrayToUUID(xid.getGlobalTransactionId()).toString()
+        LOG.debug("-->事务Xid：" + TransactionXid.byteArrayToUUID(xid.getGlobalTransactionId()).toString()
         		+ "|" + TransactionXid.byteArrayToUUID(xid.getBranchQualifier()).toString());
 
         Class targetClass = ReflectionUtils.getDeclaringType(pjp.getTarget().getClass(), method.getName(), method.getParameterTypes());
@@ -232,7 +232,7 @@ public class ResourceCoordinatorInterceptor {
      * @return
      */
     private Compensable getCompensable(ProceedingJoinPoint pjp) {
-    	LOG.debug("==>getCompensable(ProceedingJoinPoint pjp)");
+    	LOG.debug("-->资源协调拦截器 --- 根据切点，获取事务注解");
         MethodSignature signature = (MethodSignature) pjp.getSignature(); // 获取签名
         Method method = signature.getMethod(); // 获取方法
 

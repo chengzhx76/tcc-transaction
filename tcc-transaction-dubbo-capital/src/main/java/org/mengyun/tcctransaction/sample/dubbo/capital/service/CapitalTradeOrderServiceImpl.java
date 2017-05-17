@@ -40,7 +40,7 @@ public class CapitalTradeOrderServiceImpl implements CapitalTradeOrderService {
     @Compensable(confirmMethod = "confirmRecord", cancelMethod = "cancelRecord")
     @Transactional
     public String record(TransactionContext transactionContext, CapitalTradeOrderDto tradeOrderDto) {
-        LOG.debug("==>capital try record called");
+        LOG.debug("-->尝试使用余额支付");
 
         TradeOrder tradeOrder = new TradeOrder(
                 tradeOrderDto.getSelfUserId(),
@@ -61,7 +61,7 @@ public class CapitalTradeOrderServiceImpl implements CapitalTradeOrderService {
 
     @Transactional
     public void confirmRecord(TransactionContext transactionContext, CapitalTradeOrderDto tradeOrderDto) {
-    	LOG.debug("==>capital confirm record called");
+    	LOG.debug("-->余额支付成功-确认");
 
         TradeOrder tradeOrder = tradeOrderRepository.findByMerchantOrderNo(tradeOrderDto.getMerchantOrderNo());
 
@@ -77,7 +77,7 @@ public class CapitalTradeOrderServiceImpl implements CapitalTradeOrderService {
 
     @Transactional
     public void cancelRecord(TransactionContext transactionContext, CapitalTradeOrderDto tradeOrderDto) {
-    	LOG.debug("==>capital cancel record called");
+    	LOG.debug("-->余额支付成功-取消");
 
         TradeOrder tradeOrder = tradeOrderRepository.findByMerchantOrderNo(tradeOrderDto.getMerchantOrderNo());
 

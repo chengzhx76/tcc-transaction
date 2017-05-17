@@ -8,10 +8,6 @@
  */
 package org.mengyun.tcctransaction.sample.dubbo.order.web.controller;
 
-import java.math.BigDecimal;
-import java.security.InvalidParameterException;
-import java.util.List;
-
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.mengyun.tcctransaction.sample.dubbo.order.api.PlaceOrderService;
 import org.mengyun.tcctransaction.sample.dubbo.order.domain.entity.Product;
@@ -23,6 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.math.BigDecimal;
+import java.security.InvalidParameterException;
+import java.util.List;
 
 /**
  * Created by changming.xie on 4/1/16.
@@ -122,7 +122,7 @@ public class OrderController {
     private PlaceOrderRequest buildRequest(String redPacketPayAmount,long shopId,long payerUserId,long productId) {
         BigDecimal redPacketPayAmountInBigDecimal = new BigDecimal(redPacketPayAmount);
         if(redPacketPayAmountInBigDecimal.compareTo(BigDecimal.ZERO) < 0)
-            throw new InvalidParameterException("invalid red packet amount :" + redPacketPayAmount);
+            throw new InvalidParameterException("无效的红包金额 :" + redPacketPayAmount);
 
         PlaceOrderRequest request = new PlaceOrderRequest();
         request.setPayerUserId(payerUserId);

@@ -53,7 +53,7 @@ public class Terminator implements Serializable {
      * 提交参与者事务（在Participant中调用）.
      */
     public void commit() {
-    	LOG.debug("==>Terminator commit invoke");
+    	LOG.debug("-->Terminator commit invoke");
         invoke(confirmInvocationContext);
     }
 
@@ -61,7 +61,7 @@ public class Terminator implements Serializable {
      * 回滚参与者事务（在Participant中调用）.
      */
     public void rollback() {
-    	LOG.debug("==>Terminator rollback invoke");
+    	LOG.debug("-->Terminator rollback invoke");
         invoke(cancelInvocationContext);
     }
 
@@ -74,7 +74,7 @@ public class Terminator implements Serializable {
 
         if (StringUtils.isNotEmpty(invocationContext.getMethodName())) {
         	
-        	LOG.debug("==>Terminator invoke " + invocationContext.getTargetClass().getName() + "." + invocationContext.getMethodName());
+        	LOG.debug("-->Terminator invoke " + invocationContext.getTargetClass().getName() + "." + invocationContext.getMethodName());
 
             try {
                 Object target = BeanFactoryAdapter.getBean(invocationContext.getTargetClass());

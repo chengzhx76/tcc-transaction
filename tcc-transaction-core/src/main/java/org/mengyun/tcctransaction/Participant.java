@@ -40,7 +40,7 @@ public class Participant implements Serializable {
      * 回滚参与者事务（在Transaction中被调用）
      */
     public void rollback() {
-    	LOG.debug("==>Participant.rollback()");
+    	LOG.debug("-->回滚参与者事务");
         terminator.rollback();
     }
 
@@ -48,7 +48,7 @@ public class Participant implements Serializable {
      * 提交参与者事务（在Transaction中被调用）.
      */
     public void commit() {
-    	LOG.debug("==>Participant.rollback()");
+    	LOG.debug("-->提交参与者事务");
         terminator.commit();
     }
 

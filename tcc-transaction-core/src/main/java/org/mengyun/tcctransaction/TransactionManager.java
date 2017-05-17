@@ -41,9 +41,9 @@ public class TransactionManager {
      * 事务开始（创建事务日志记录，并将该事务日志记录存入当前线程的事务局部变量中）
      */
     public void begin() {
-    	LOG.debug("==>begin()");
+    	LOG.debug("-->begin()");
         Transaction transaction = new Transaction(TransactionType.ROOT); // 事务类型为ROOT:1
-        LOG.debug("==>TransactionType:" + transaction.getTransactionType().toString() + ", Transaction Status:" + transaction.getStatus().toString());
+        LOG.debug("-->TransactionType:" + transaction.getTransactionType().toString() + ", Transaction Status:" + transaction.getStatus().toString());
         TransactionRepository transactionRepository = transactionConfigurator.getTransactionRepository();
         transactionRepository.create(transaction); // 创建事务记录,写入事务日志库
         threadLocalTransaction.set(transaction); // 将该事务日志记录存入当前线程的事务局部变量中
@@ -56,7 +56,7 @@ public class TransactionManager {
     public void propagationNewBegin(TransactionContext transactionContext) {
 
         Transaction transaction = new Transaction(transactionContext);
-        LOG.debug("==>propagationNewBegin TransactionXid：" + TransactionXid.byteArrayToUUID(transaction.getXid().getGlobalTransactionId()).toString()
+        LOG.debug("-->propagationNewBegin TransactionXid：" + TransactionXid.byteArrayToUUID(transaction.getXid().getGlobalTransactionId()).toString()
         		+ "|" + TransactionXid.byteArrayToUUID(transaction.getXid().getBranchQualifier()).toString());
         
         transactionConfigurator.getTransactionRepository().create(transaction);
@@ -75,7 +75,7 @@ public class TransactionManager {
 
         if (transaction != null) {
         	
-        	LOG.debug("==>propagationExistBegin TransactionXid：" + TransactionXid.byteArrayToUUID(transaction.getXid().getGlobalTransactionId()).toString()
+        	LOG.debug("-->propagationExistBegin TransactionXid：" + TransactionXid.byteArrayToUUID(transaction.getXid().getGlobalTransactionId()).toString()
             		+ "|" + TransactionXid.byteArrayToUUID(transaction.getXid().getBranchQualifier()).toString());
         	
             transaction.changeStatus(TransactionStatus.valueOf(transactionContext.getStatus()));
@@ -89,15 +89,15 @@ public class TransactionManager {
      * 提交.
      */
     public void commit() {
-    	LOG.debug("==>TransactionManager commit()");
+    	LOG.debug("-->TransactionManager commit()");
         Transaction transaction = getCurrentTransaction();
 
         transaction.changeStatus(TransactionStatus.CONFIRMING);
-        LOG.debug("==>update transaction status to CONFIRMING");
+        LOG.debug("-->update transaction status to CONFIRMING");
         transactionConfigurator.getTransactionRepository().update(transaction);
 
         try {
-        	LOG.info("==>transaction begin commit()");
+        	LOG.info("-->transaction begin commit()");
             transaction.commit();
             transactionConfigurator.getTransactionRepository().delete(transaction);
         } catch (Throwable commitException) {
@@ -125,7 +125,7 @@ public class TransactionManager {
         transactionConfigurator.getTransactionRepository().update(transaction);
         
         try {
-        	LOG.info("==>transaction begin rollback()");
+        	LOG.info("-->transaction begin rollback()");
             transaction.rollback();
             transactionConfigurator.getTransactionRepository().delete(transaction);
         } catch (Throwable rollbackException) {

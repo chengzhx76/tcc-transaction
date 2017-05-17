@@ -70,7 +70,7 @@ public class PlaceOrderServiceImpl implements PlaceOrderService{
         
     	// 创建订单
         Order order = orderService.createOrder(payerUserId, shop.getOwnerUserId(), productQuantities);
-        LOG.debug("==>placeOrder, shopId:" + shopId + ", payerUserId:" + payerUserId + ", payeeUserId:" + shop.getOwnerUserId());
+        LOG.debug("-->下单, 商户: " + shopId + ", 付款者用户: " + payerUserId + ", 收款用户: " + shop.getOwnerUserId());
 
         Boolean result = false;
 

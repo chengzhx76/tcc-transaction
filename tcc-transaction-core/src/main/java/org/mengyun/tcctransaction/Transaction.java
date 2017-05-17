@@ -138,7 +138,7 @@ public class Transaction implements Serializable {
      * 事务提交（包含此事务的所有参与者的逐个提交，在TransactionManager中被调用）.
      */
     public void commit() {
-    	LOG.debug("==>Transaction.commit()");
+    	LOG.debug("-->Transaction.commit()");
         for (Participant participant : participants) {
             participant.commit();
         }
@@ -148,7 +148,7 @@ public class Transaction implements Serializable {
      * 事务回滚（包含此事务的所有参与者的逐个回滚，在TransactionManager中被调用）.
      */
     public void rollback() {
-    	LOG.debug("==>Transaction.rollback()");
+    	LOG.debug("-->Transaction.rollback()");
         for (Participant participant : participants) {
             participant.rollback();
         }

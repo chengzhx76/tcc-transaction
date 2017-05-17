@@ -75,7 +75,7 @@ public class TransactionRecovery {
         
         // 日志输出，调试用
         if (!transactions.isEmpty()){
-        	logger.debug("==>loadErrorTransactions transactions size:" + transactions.size());
+        	logger.debug("-->loadErrorTransactions transactions size:" + transactions.size());
         }
 
         return recoverTransactions;

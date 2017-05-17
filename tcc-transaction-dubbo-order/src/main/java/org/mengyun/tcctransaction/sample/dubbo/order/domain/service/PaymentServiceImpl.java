@@ -60,25 +60,25 @@ public class PaymentServiceImpl {
     @Transactional
     public void makePayment(Order order, BigDecimal redPacketPayAmount, BigDecimal capitalPayAmount) {
     	
-    	LOG.debug("==>order try make payment called");
+    	LOG.debug("-->尝试付款");
     	
-    	LOG.debug("==>redPacketPayAmount：" + redPacketPayAmount.doubleValue());
-    	LOG.debug("==>capitalPayAmount：" + capitalPayAmount.doubleValue());
+    	LOG.debug("-->红包金额：" + redPacketPayAmount.doubleValue());
+    	LOG.debug("-->余额金额：" + capitalPayAmount.doubleValue());
 
         order.pay(redPacketPayAmount, capitalPayAmount);
         orderRepository.updateOrder(order);
         
-        LOG.debug("==try capitalTradeOrderService.record(null, buildCapitalTradeOrderDto(order) begin");
+        LOG.debug("-->开始使用余额支付");
         // 资金帐户交易订单记录（因为此方法中有TransactionContext参数，因此也会被TccTransactionContextAspect拦截处理）
         String result = capitalTradeOrderService.record(null, buildCapitalTradeOrderDto(order));
-        LOG.debug("==try capitalTradeOrderService.record(null, buildCapitalTradeOrderDto(order) end, result:" + result);
+        LOG.debug("-->余额支付完成 结果:" + result);
         
-        LOG.debug("==>try redPacketTradeOrderService.record(null, buildRedPacketTradeOrderDto(order)) begin");
+        LOG.debug("-->开始使用红包支付");
 		// 红包帐户交易订单记录
         String result2 = redPacketTradeOrderService.record(null, buildRedPacketTradeOrderDto(order));
-        LOG.debug("==>try redPacketTradeOrderService.record(null, buildRedPacketTradeOrderDto(order)) end, result:" + result2);
+        LOG.debug("-->余额支付完成 结果：" + result2);
         
-        LOG.debug("==>order try end");
+        LOG.debug("-->订单支付完成");
         
     }
 
@@ -90,7 +90,7 @@ public class PaymentServiceImpl {
 	 */
     public void confirmMakePayment(Order order, BigDecimal redPacketPayAmount, BigDecimal capitalPayAmount) {
 
-    	LOG.debug("==>order confirm make payment called, set status : CONFIRMED");
+    	LOG.debug("-->订单确认支付 status : CONFIRMED");
         order.confirm(); // 设置订单状态为CONFIRMED
 
         orderRepository.updateOrder(order);
@@ -104,7 +104,7 @@ public class PaymentServiceImpl {
 	 */
     public void cancelMakePayment(Order order, BigDecimal redPacketPayAmount, BigDecimal capitalPayAmount) {
 
-    	LOG.debug("==>order cancel make payment called, set status : PAY_FAILED");
+    	LOG.debug("-->订单支付失败 set status : PAY_FAILED");
 
         order.cancelPayment();
 
@@ -118,7 +118,7 @@ public class PaymentServiceImpl {
 	 * @return
 	 */
     private CapitalTradeOrderDto buildCapitalTradeOrderDto(Order order) {
-    	LOG.debug("==>buildCapitalTradeOrderDto(Order order)");
+    	LOG.debug("-->开始组装余额DTO");
         CapitalTradeOrderDto tradeOrderDto = new CapitalTradeOrderDto();
         tradeOrderDto.setAmount(order.getCapitalPayAmount());
         tradeOrderDto.setMerchantOrderNo(order.getMerchantOrderNo());
@@ -135,7 +135,7 @@ public class PaymentServiceImpl {
 	 * @return
 	 */
     private RedPacketTradeOrderDto buildRedPacketTradeOrderDto(Order order) {
-    	LOG.debug("==>buildRedPacketTradeOrderDto(Order order)");
+    	LOG.debug("-->开始组装红包DTO");
         RedPacketTradeOrderDto tradeOrderDto = new RedPacketTradeOrderDto();
         tradeOrderDto.setAmount(order.getRedPacketPayAmount());
         tradeOrderDto.setMerchantOrderNo(order.getMerchantOrderNo());
